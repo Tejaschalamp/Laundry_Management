@@ -1,1 +1,1 @@
-Laundry management system 
+Laundry management system repository
