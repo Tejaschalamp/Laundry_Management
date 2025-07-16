@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Laundry Submission</title>
+</head>
+<body>
+  <h2>Submit Laundry</h2>
+  <form id="laundryForm">
+    <input name="name" placeholder="Name" required><br>
+    <input name="contact" placeholder="Contact Number" required><br>
+    <input name="description" placeholder="Clothes Description" required><br>
+    <button type="submit">Submit</button>
+  </form>
+  <p id="tokenDisplay"></p>
+
+  <h2>Check Status</h2>
+  <input id="tokenInput" placeholder="Enter Your Token">
+  <button onclick="checkStatus()">Check</button>
+  <p id="statusResult"></p>
+
+  <script>
+    document.getElementById('laundryForm').onsubmit = async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const res = await fetch('/api/laundry/submit', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: form.name.value,
+          contact: form.contact.value,
+          description: form.description.value
+        })
+      });
+      const data = await res.json();
+      document.getElementById('tokenDisplay').innerText = 'Your Token: ' + data.token;
+    };
+
+    async function checkStatus() {
+      const token = document.getElementById('tokenInput').value;
+      const res = await fetch('/api/laundry/status/' + token);
+      const data = await res.json();
+      document.getElementById('statusResult').innerText = 'Status: ' + data.status;
+    }
+  </script>
+</body>
+</html>

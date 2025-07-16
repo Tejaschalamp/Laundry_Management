@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head><title>Admin Dashboard</title></head>
+<body>
+  <h2>Admin Login</h2>
+  <input id="username" placeholder="Username"><br>
+  <input id="password" placeholder="Password" type="password"><br>
+  <button onclick="login()">Login</button>
+
+  <div id="dashboard" style="display:none;">
+    <h3>All Laundry Entries</h3>
+    <ul id="entries"></ul>
+  </div>
+
+  <script>
+    let token = '';
+
+    async function login() {
+      const res = await fetch('/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          username: document.getElementById('username').value,
+          password: document.getElementById('password').value
+        })
+      });
+
+      const data = await res.json();
+      if (data.token) {
+        token = data.token;
+        loadEntries();
+      }
+    }
+
+    async function loadEntries() {
+      const res = await fetch('/api/laundry/entries', {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await res.json();
+      document.getElementById('dashboard').style.display = 'block';
+      const ul = document.getElementById('entries');
+      ul.innerHTML = '';
+      data.forEach(entry => {
+        const li = document.createElement('li');
+        li.textContent = `${entry.name} - ${entry.token} - ${entry.status}`;
+        if (entry.status === 'Not Completed') {
+          const btn = document.createElement('button');
+          btn.innerText = 'Mark Completed';
+          btn.onclick = async () => {
+            await fetch('/api/laundry/complete/' + entry.token, {
+              method: 'POST',
+              headers: { Authorization: `Bearer ${token}` }
+            });
+            loadEntries();
+          };
+          li.appendChild(btn);
+        }
+        ul.appendChild(li);
+      });
+    }
+  </script>
+</body>
+</html>
