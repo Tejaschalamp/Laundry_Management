@@ -11,7 +11,7 @@ const laundryRoutes = require('./routes/laundry');
 app.use(cors());
 app.use(express.json());
 
-app.get('/admin', (req, res) => {
+app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'admin.html'));
 });
 
