@@ -3,12 +3,35 @@
 <head>
   <title>Admin Dashboard</title>
   <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="background.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h2>Admin Login</h2>
-  <input id="username" placeholder="Username"><br>
-  <input id="password" placeholder="Password" type="password"><br>
-  <button onclick="login()">Login</button>
+  <div class="background-animation">
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="bubble"></div>
+    <div class="laundry-item shirt"></div>
+    <div class="laundry-item sock"></div>
+    <div class="laundry-item washer"></div>
+    <div class="laundry-item shirt"></div>
+    <div class="laundry-item sock"></div>
+  </div>
+
+  <div class="login-center">
+    <div class="login-box">
+      <h2>Admin Login</h2>
+      <input id="username" placeholder="Username"><br>
+      <input id="password" placeholder="Password" type="password"><br>
+      <button onclick="login()">Login</button>
+    </div>
+  </div>
 
   <div id="dashboard" style="display:none;">
     <h3>All Laundry Entries</h3>

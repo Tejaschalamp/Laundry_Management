@@ -1,0 +1,101 @@
+.background-animation {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden;
+    background: linear-gradient(135deg, #f8faff 0%, #e4ecfb 100%);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.bubble {
+    position: absolute;
+    background: linear-gradient(135deg, rgba(255,255,255,0.8), rgba(255,255,255,0.3));
+    border-radius: 50%;
+    animation: float 8s infinite;
+    backdrop-filter: blur(2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    pointer-events: none;
+}
+
+.laundry-item {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.15;
+    animation: spin 20s infinite linear;
+    pointer-events: none;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1));
+}
+
+.shirt {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%233a7bd5' d='M16 21H8a3 3 0 0 1-3-3V6l3.35-3.35a1 1 0 0 1 .71-.29h5.88a1 1 0 0 1 .71.29L19 6v12a3 3 0 0 1-3 3z'/%3E%3C/svg%3E");
+}
+
+.sock {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%233a7bd5' d='M12 2a4 4 0 0 1 4 4v2h2v12a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V8h2V6a4 4 0 0 1 4-4z'/%3E%3C/svg%3E");
+}
+
+.washer {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle fill='%233a7bd5' cx='12' cy='12' r='10'/%3E%3Ccircle fill='white' cx='12' cy='12' r='6'/%3E%3C/svg%3E");
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(100vh) scale(0) rotate(0deg);
+        opacity: 0;
+    }
+    20% {
+        opacity: 1;
+    }
+    90% {
+        opacity: 0.8;
+    }
+    100% {
+        transform: translateY(-100px) scale(1.5) rotate(360deg);
+        opacity: 0;
+    }
+}
+
+@keyframes spin {
+    0% {
+        transform: translateY(110vh) rotate(0deg);
+        opacity: 0;
+    }
+    20% {
+        opacity: 0.15;
+    }
+    90% {
+        opacity: 0.1;
+    }
+    100% {
+        transform: translateY(-100px) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Create multiple bubbles and laundry items with different sizes and animations */
+.bubble:nth-child(1) { left: 10%; width: 30px; height: 30px; animation-delay: 0s; }
+.bubble:nth-child(2) { left: 20%; width: 25px; height: 25px; animation-delay: 2s; }
+.bubble:nth-child(3) { left: 35%; width: 35px; height: 35px; animation-delay: 4s; }
+.bubble:nth-child(4) { left: 50%; width: 28px; height: 28px; animation-delay: 6s; }
+.bubble:nth-child(5) { left: 65%; width: 32px; height: 32px; animation-delay: 8s; }
+.bubble:nth-child(6) { left: 80%; width: 26px; height: 26px; animation-delay: 10s; }
+.bubble:nth-child(7) { left: 90%; width: 34px; height: 34px; animation-delay: 12s; }
+
+.laundry-item:nth-child(8) { left: 15%; animation-delay: 0s; }
+.laundry-item:nth-child(9) { left: 30%; animation-delay: 3s; }
+.laundry-item:nth-child(10) { left: 45%; animation-delay: 6s; }
+.laundry-item:nth-child(11) { left: 60%; animation-delay: 9s; }
+.laundry-item:nth-child(12) { left: 75%; animation-delay: 12s; }
