@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Laundry Management - Sign Up</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="background.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .signup-box h2 {
+            margin-top: 0;
+            margin-bottom: 2rem;
+        }
+
+        #signupForm input {
+            margin-bottom: 1rem;
+        }
+
+        #signupForm input:last-of-type {
+            margin-bottom: 1.5rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .button-group button {
+            flex: 1;
+            margin: 0;
+        }
+
+        @media (max-width: 600px) {
+            .signup-box {
+                padding: 1.5rem;
+            }
+
+            .signup-box h2 {
+                font-size: 1.5rem;
+            }
+
+            .button-group {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+
+            .button-group button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="background-animation">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="laundry-item shirt"></div>
+        <div class="laundry-item sock"></div>
+        <div class="laundry-item washer"></div>
+        <div class="laundry-item shirt"></div>
+        <div class="laundry-item sock"></div>
+    </div>
+
+    <div class="signup-center">
+        <div class="signup-box">
+            <h2>Sign Up</h2>
+            <form id="signupForm">
+                <input type="text" id="name" placeholder="Full Name" required>
+                <input type="email" id="email" placeholder="Email Address" required>
+                <input type="password" id="password" placeholder="Password" required>
+                <div class="button-group">
+                    <button type="submit" class="primary-button">Sign Up</button>
+                    <button type="button" class="secondary-button" onclick="location.href='/'">Back to Login</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('signupForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            try {
+                const name = document.getElementById('name').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const password = document.getElementById('password').value;
+
+                if (!name || !email || !password) {
+                    alert('Please fill in all fields');
+                    return;
+                }
+
+                console.log('Sending registration request...');
+                const response = await fetch('/api/auth/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email, password })
+                });
+
+                const data = await response.json();
+                console.log('Server response:', data);
+
+                if (response.ok) {
+                    alert('Registration successful! Please login.');
+                    window.location.href = '/';
+                } else {
+                    if (data.error === 'DB_CONNECTION_ERROR') {
+                        alert('Database connection error. Please ensure MongoDB is installed and running.');
+                    } else if (data.error === 'DB_SAVE_ERROR') {
+                        alert('Error saving your registration. Please try again.');
+                    } else {
+                        alert(data.message || 'Registration failed');
+                    }
+                    console.error('Registration failed:', data);
+                }
+            } catch (error) {
+                console.error('Registration error:', error);
+                alert('Error connecting to the server. Please ensure the server is running and try again.');
+            }
+        });
+    </script>
+</body>
+</html>

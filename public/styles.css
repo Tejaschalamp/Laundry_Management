@@ -1,5 +1,5 @@
-/* Center login form on admin page */
-.login-center {
+/* Center form on both admin and signup pages */
+.login-center, .signup-center {
     min-height: 100vh;
     display: flex;
     align-items: center;
@@ -9,21 +9,22 @@
     z-index: 1;
 }
 
-.login-box {
+.login-box, .signup-box {
     background: rgba(255, 255, 255, 0.95);
-    padding: 3rem 2.5rem;
+    padding: 2.5rem;
     border-radius: 20px;
     box-shadow: var(--box-shadow);
-    min-width: 320px;
-    max-width: 380px;
     width: 100%;
+    max-width: 360px;
+    margin: 0 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     backdrop-filter: blur(8px);
     border: 1px solid rgba(255, 255, 255, 0.2);
     transform: translateY(0);
     transition: all 0.3s ease;
+    box-sizing: border-box;
 }
 
 .login-box:hover {
@@ -31,14 +32,92 @@
     box-shadow: 0 12px 40px rgba(0,0,0,0.15);
 }
 
-.login-box h2 {
+.login-box h2, .signup-box h2 {
     font-weight: 600;
     color: var(--primary-color);
     margin-bottom: 2rem;
     font-size: 2rem;
     text-align: center;
 }
+
+/* Form styling */
+.login-box form, .signup-box form {
+    width: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 0;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+input::placeholder {
+    color: #999;
+}
+
+input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.1);
+    outline: none;
+}
+
 /* Laundry Management System - styles.css */
+
+.button-group {
+    display: flex;
+    gap: 12px;
+    width: 100%;
+    margin-top: 0;
+    box-sizing: border-box;
+}
+
+.primary-button, .secondary-button {
+    flex: 1;
+    padding: 12px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+}
+
+.primary-button {
+    background: var(--gradient);
+    color: white;
+}
+
+.secondary-button {
+    background: white;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.primary-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(58, 123, 213, 0.3);
+}
+
+.secondary-button:hover {
+    background: #f8faff;
+    transform: translateY(-2px);
+}
 
 :root {
     --primary-color: #3a7bd5;
@@ -98,7 +177,11 @@ input, select, button {
     background: rgba(255, 255, 255, 0.9);
 }
 
-input:focus {
+input::placeholder, select::placeholder {
+    color: #999;
+}
+
+input:focus, select:focus {
     outline: none;
     border-color: var(--primary-color);
     box-shadow: 0 0 0 4px rgba(58, 123, 213, 0.1);
@@ -118,13 +201,18 @@ button {
     transition: all 0.3s ease;
 }
 
-button:hover {
+button:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(58, 123, 213, 0.3);
 }
 
-button:active {
+button:active:not(:disabled) {
     transform: translateY(0);
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 table {
@@ -157,12 +245,77 @@ tr:hover {
     border: 1px solid #ffe0b2;
 }
 
-@media (max-width: 700px) {
+@media (max-width: 1200px) {
+    .login-box, .signup-box {
+        max-width: 95vw;
+    }
+    
+    main, .container {
+        max-width: 95vw;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .login-center, .signup-center {
+        padding: 2rem 0;
+    }
+    
+    .login-box, .signup-box {
+        padding: 2rem;
+        max-width: 100%;
+        margin: 1rem;
+    }
+
+    .login-box h2, .signup-box h2 {
+        font-size: 1.5rem;
+        margin-bottom: 1.5rem;
+    }
+
     main, .container {
         padding: 1rem;
-        max-width: 98vw;
+        max-width: 100%;
+        margin: 1rem;
     }
+
     table, th, td {
         font-size: 0.95rem;
+    }
+
+    input, select, button {
+        padding: 0.875rem 1rem;
+        font-size: 0.95rem;
+    }
+
+    h1 {
+        font-size: 1.5rem;
+    }
+
+    h2 {
+        font-size: 1.25rem;
+    }
+
+    h3 {
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-box, .signup-box {
+        padding: 1.5rem 1rem;
+        margin: 0;
+    }
+
+    .login-box h2, .signup-box h2 {
+        font-size: 1.25rem;
+    }
+
+    .button-group {
+        gap: 0.5rem;
+    }
+
+    input, select, button {
+        padding: 0.75rem;
+        font-size: 0.9rem;
     }
 }

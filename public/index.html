@@ -1,47 +1,368 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Laundry Submission</title>
-  <link rel="stylesheet" href="styles.css">
+    <title>Laundry Status Check</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="background.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            height: auto;
+            min-height: 60px;
+            gap: 1rem;
+        }
+
+        .header h1 {
+            margin: 0;
+            color: var(--primary-color);
+            flex: 1;
+            text-align: left;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .admin-login-btn {
+            background: none;
+            border: 2px solid var(--primary-color);
+            color: var(--primary-color);
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            margin-left: auto;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+            min-width: auto;
+            width: auto;
+            display: inline-block;
+            font-weight: 600;
+        }
+
+        .admin-login-btn:hover {
+            background: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 2px 8px rgba(58, 123, 213, 0.2);
+        }
+
+        .main-container {
+            max-width: 500px;
+            margin: 0;
+            padding: 2.5rem 2rem;
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 20px;
+            box-shadow: var(--box-shadow);
+            text-align: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+            width: 90%;
+        }
+
+        .main-container h2 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .token-input {
+            width: 100%;
+            max-width: 300px;
+            padding: 12px 15px;
+            margin: 1.5rem auto;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            text-align: center;
+            letter-spacing: 2px;
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .token-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(58, 123, 213, 0.1);
+        }
+
+        .token-input::placeholder {
+            color: #999;
+            letter-spacing: 0.5px;
+        }
+
+        .status-display {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            border-radius: 12px;
+            display: none;
+            border-left: 5px solid transparent;
+        }
+
+        .status-pending {
+            background: rgba(255, 243, 205, 0.9);
+            color: #856404;
+            border-left-color: #ffc107;
+        }
+
+        .status-completed {
+            background: rgba(212, 237, 218, 0.9);
+            color: #155724;
+            border-left-color: #28a745;
+        }
+
+        .status-ready {
+            background: rgba(204, 229, 255, 0.9);
+            color: #004085;
+            border-left-color: #3a7bd5;
+        }
+
+        .status-display h3 {
+            margin-top: 0;
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .status-display p {
+            margin: 0.75rem 0;
+            text-align: left;
+            font-size: 0.95rem;
+        }
+
+        .status-display strong {
+            font-weight: 600;
+        }
+
+        .check-button {
+            background: var(--gradient);
+            color: white;
+            border: none;
+            padding: 12px 40px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .check-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(58, 123, 213, 0.3);
+        }
+
+        @media (max-width: 1200px) {
+            .header h1 {
+                font-size: 1.25rem;
+            }
+
+            .main-container {
+                max-width: 95vw;
+                padding: 2rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                padding: 0.75rem 1rem;
+                min-height: 50px;
+            }
+
+            .header h1 {
+                font-size: 1.1rem;
+            }
+
+            .admin-login-btn {
+                font-size: 0.8rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .main-container {
+                width: 95%;
+                padding: 2rem 1.5rem;
+                margin: 0 auto;
+            }
+
+            .main-container h2 {
+                font-size: 1.25rem;
+                margin-bottom: 1rem;
+            }
+
+            .token-input {
+                font-size: 1rem;
+                padding: 10px 12px;
+                margin: 1rem auto;
+            }
+
+            .check-button {
+                padding: 10px 30px;
+                font-size: 0.95rem;
+            }
+
+            .status-display {
+                padding: 1rem;
+                margin-top: 1.5rem;
+            }
+
+            .status-display h3 {
+                font-size: 1.1rem;
+            }
+
+            .status-display p {
+                font-size: 0.9rem;
+                margin: 0.5rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                flex-wrap: wrap;
+                padding: 0.5rem;
+                min-height: auto;
+            }
+
+            .header h1 {
+                font-size: 1rem;
+                flex: 1 1 100%;
+            }
+
+            .admin-login-btn {
+                width: 100%;
+                margin: 0;
+                text-align: center;
+            }
+
+            .main-container {
+                width: 100%;
+                padding: 1.5rem 1rem;
+                border-radius: 15px;
+                max-width: 100%;
+            }
+
+            .main-container h2 {
+                font-size: 1.1rem;
+            }
+
+            .token-input {
+                max-width: 100%;
+                font-size: 0.95rem;
+            }
+
+            .check-button {
+                width: 100%;
+                padding: 10px 20px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h2>Submit Laundry</h2>
-  <form id="laundryForm">
-    <input name="name" placeholder="Name" required><br>
-    <input name="contact" placeholder="Contact Number" required><br>
-    <input name="description" placeholder="Clothes Description" required><br>
-    <button type="submit">Submit</button>
-  </form>
-  <p id="tokenDisplay"></p>
+    <div class="background-animation">
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="bubble"></div>
+        <div class="laundry-item shirt"></div>
+        <div class="laundry-item sock"></div>
+        <div class="laundry-item washer"></div>
+        <div class="laundry-item shirt"></div>
+        <div class="laundry-item sock"></div>
+        <div class="laundry-item washer"></div>
+        <div class="laundry-item shirt"></div>
+        <div class="laundry-item sock"></div>
+    </div>
 
-  <h2>Check Status</h2>
-  <input id="tokenInput" placeholder="Enter Your Token">
-  <button onclick="checkStatus()">Check</button>
-  <p id="statusResult"></p>
+    <header class="header">
+        <h1>Laundry Check</h1>
+        <button onclick="location.href='/admin'" class="admin-login-btn">Admin Login</button>
+    </header>
 
-  <script>
-    document.getElementById('laundryForm').onsubmit = async (e) => {
-      e.preventDefault();
-      const form = e.target;
-      const res = await fetch('/api/laundry/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name: form.name.value,
-          contact: form.contact.value,
-          description: form.description.value
-        })
-      });
-      const data = await res.json();
-      document.getElementById('tokenDisplay').innerText = 'Your Token: ' + data.token;
-    };
+    <main class="main-container">
+        <h2>Check Your Laundry Status</h2>
+        <input type="text" id="tokenInput" class="token-input" placeholder="Enter Token Number" maxlength="8">
+        <button onclick="checkStatus()" class="check-button">Check Status</button>
+        
+        <div id="statusDisplay" class="status-display">
+            <!-- Status will be displayed here -->
+        </div>
+    </main>
 
-    async function checkStatus() {
-      const token = document.getElementById('tokenInput').value;
-      const res = await fetch('/api/laundry/status/' + token);
-      const data = await res.json();
-      document.getElementById('statusResult').innerText = 'Status: ' + data.status;
-    }
-  </script>
+    <script>
+        async function checkStatus() {
+            const token = document.getElementById('tokenInput').value.trim();
+            if (!token) {
+                alert('Please enter a token number');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/laundry/status/${token}`);
+                const data = await response.json();
+
+                const statusDisplay = document.getElementById('statusDisplay');
+                statusDisplay.style.display = 'block';
+
+                if (response.ok) {
+                    let statusClass = '';
+                    switch(data.status) {
+                        case 'Pending':
+                            statusClass = 'status-pending';
+                            break;
+                        case 'In Progress':
+                            statusClass = 'status-ready';
+                            break;
+                        case 'Completed':
+                            statusClass = 'status-completed';
+                            break;
+                    }
+                    const itemsList = data.items.map(item => `${item.quantity}x ${item.type}`).join(', ');
+                    statusDisplay.className = `status-display ${statusClass}`;
+                    statusDisplay.innerHTML = `
+                        <h3>Status: ${data.status}</h3>
+                        <p><strong>Token:</strong> ${data.token}</p>
+                        <p><strong>Items:</strong> ${itemsList}</p>
+                        <p><strong>Wash Type:</strong> ${data.washType}</p>
+                        ${data.notes ? `<p><strong>Notes:</strong> ${data.notes}</p>` : ''}
+                    `;
+                } else {
+                    statusDisplay.className = 'status-display';
+                    statusDisplay.innerHTML = `<p style="color: #721c24">${data.message || 'Invalid token'}</p>`;
+                }
+            } catch (error) {
+                console.error('Error checking status:', error);
+                alert('Error checking status. Please try again.');
+            }
+        }
+
+        // Allow Enter key to check status
+        document.getElementById('tokenInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkStatus();
+            }
+        });
+    </script>
 </body>
 </html>
